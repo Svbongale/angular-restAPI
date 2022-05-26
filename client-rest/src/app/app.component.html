@@ -1,0 +1,145 @@
+
+<!-- navbar start -->
+
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+  <div class="container">
+  <a class="navbar-brand" href="#">OrderRestaurant.com</a>
+  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+    <span class="navbar-toggler-icon"></span>
+  </button>
+
+  <div class="collapse navbar-collapse" id="navbarSupportedContent">
+    <ul class="navbar-nav mr-auto">
+      <li class="nav-item active">
+        <a class="nav-link" href="http://localhost:4200">Home <span class="sr-only">(current)</span></a>
+      </li>
+    </ul>
+  </div>
+</div>
+</nav>
+
+<!-- navbar end -->
+
+<br>
+<div class="container bg-info breadcrumb my-3">
+<div class="container" id="main-container">  Add New Orders Here -->
+  <a class="btn btn-warning ml-5" (click)="onOpenModal(null, 'add')">Add Order</a>
+</div>
+</div>
+<hr>
+<div class="container"*ngFor="let order of orders">
+  <div class="card">
+    <div class="card-header">
+      Order No : {{order.id}}
+    </div>
+    <div class="card-body">
+      <h5 class="card-title">Item: {{order.dishName}}</h5>
+      <h4>Order Details:</h4>
+      <h6>Customer: {{order.userName}}</h6>
+      <h6>Phone: {{order.userPhone}}</h6>
+      <h6>Address: {{order.userAddress}}</h6>
+      <h6>Category: {{order.dishCategory}}</h6>
+      <!-- <h6>Is Veg: {{order.isVeg}}</h6> -->
+      <!-- <h6>Total Price: {{order.dishPrice}} /- </h6> -->
+      <a href="#" class="btn btn-primary mr-3" (click)="onOpenModal(order, 'edit')">Edit Order</a>
+      <a href="#" class="btn btn-danger" (click)="onOpenModal(order, 'delete')">Delete Order</a>
+    </div>
+  </div><br>
+</div>
+
+
+
+
+<!--Add Modal -->
+<div class="modal fade" id="addNewOrderModal" tabindex="-1" role="dialog">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Add New Order</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <form  #addForm = "ngForm" (ngSubmit) = "onAddOrder(addForm)">
+          <label for="dish-Name" class="form-label">Item Name</label>
+          <input type="text" ngModel name ="dishName" class="form-control" required>
+          <label for="dishCategory" class="form-label">Category</label>
+          <input type="text" ngModel name ="dishCategory" class="form-control" required>
+          <label for="userName" class="form-label">Customer Name</label>
+          <input type="text" ngModel name ="userName" class="form-control"  required>
+          <label for="userPhone" class="form-label">Customer Phone</label>
+          <input type="text" ngModel name ="userPhone" class="form-control" required>
+          <label for="userAddress" class="form-label">Customer Address</label>
+          <input type="text" ngModel name ="userAddress" class="form-control" required>
+          <label for="dishPrice" class="form-label">Total Price</label>
+          <input type="text" ngModel name ="dishPrice" class="form-control" required>
+          <br>
+          <button id ="add-order-form" type="button" class="btn btn-secondary mr-3" data-dismiss="modal">Close</button>
+          <button type="submit" class="btn btn-primary">Add New Order</button>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+
+
+<!--Edit  Modal -->
+<div class="modal fade" id="updateOrderModal" tabindex="-1" role="dialog">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <form #editForm = "ngForm" >
+          <!-- <label for="id" class="form-label">Item id</label> -->
+          <input type="hidden" ngModel="{{editOrder?.id}}" name = "id" class="form-control">
+          <label for="EditdishName" class="form-label">Edit Item Name</label>
+          <input type="text" ngModel="{{editOrder?.dishName}}" name = "dishName" class="form-control" required>
+          <label for="EditdishCategory" class="form-label">Edit Category</label>
+          <input type="text" ngModel="{{editOrder?.dishCategory}}" name = "dishCategory" class="form-control" required>
+          <label for="EdituserName" class="form-label">Edit Customer Name</label>
+          <input type="text" ngModel="{{editOrder?.userName}}" name = "userName" class="form-control"  required>
+          <label for="EdituserPhone" class="form-label">Edit Customer Phone</label>
+          <input type="text" ngModel="{{editOrder?.userPhone}}" name = "userPhone" class="form-control" required>
+          <label for="EdituserAddress" class="form-label">Edit Customer Address</label>
+          <input type="text" ngModel="{{editOrder?.userAddress}}" name = "userAddress" class="form-control" required>
+          <label for="EditdishPrice" class="form-label">Edit Total Price</label>
+          <input type="text" ngModel="{{editOrder?.dishPrice}}" name = "dishPrice" class="form-control" required>
+          <br>
+          <button id ="edit-order-form" type="button" class="btn btn-secondary mr-3" data-dismiss="modal">Close</button>
+          <button (click)="onUpdateOrder(editForm.value)" class="btn btn-primary">Edit This Order</button>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!--Delete Modal -->
+<div class="modal" id="deleteOrderModal" tabindex="-1" role="dialog">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Modal title</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <p>Do you want to delete this order</p>
+      </div>
+      <div class="modal-footer">
+        <button (click) ="onDeleteOrder(deleteOrder?.id)" class="btn btn-primary">Delete</button>
+        <button id="delete-order-form"type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+
